@@ -1,0 +1,56 @@
+# Task 1: Hangman Game
+
+import random
+
+word_list = ["python", "intern", "coding", "logic", "program"]
+
+# Step 1: Randomly select a word
+selected_word = random.choice(word_list)
+
+# Step 2: Initialize game variables
+guessed_letters = []
+incorrect_guesses = 0
+max_attempts = 6
+
+# Create a display version of the word using underscores
+display_word = ["_"] * len(selected_word)
+
+print("Welcome to the Hangman Game!")
+print("You have 6 incorrect attempts.")
+print("Word to guess:", " ".join(display_word))
+
+# Step 3: Main game loop
+while incorrect_guesses < max_attempts and "_" in display_word:
+    
+    guess = input("\nEnter a letter: ").lower()
+
+    if len(guess) != 1 or not guess.isalpha():
+        print("Please enter a single valid letter.")
+        continue
+
+    if guess in guessed_letters:
+        print("You have already guessed this letter.")
+        continue
+
+    guessed_letters.append(guess)
+
+    # Step 4: Check if guessed letter is in the word
+    if guess in selected_word:
+        print("Good guess!")
+        for index in range(len(selected_word)):
+            if selected_word[index] == guess:
+                display_word[index] = guess
+    else:
+        incorrect_guesses += 1
+        print("Wrong guess!")
+        print("Remaining attempts:", max_attempts - incorrect_guesses)
+
+    # Display current progress
+    print("Word:", " ".join(display_word))
+
+# Step 6: Result
+if "_" not in display_word:
+    print("\nCongratulations! You guessed the word correctly:", selected_word)
+else:
+    print("\nGame Over! You ran out of attempts.")
+    print("The correct word was:", selected_word)
